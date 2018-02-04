@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		
+		<title>조회 결과</title>
+		
+  		<link href="/public/semantic.min.css" rel="stylesheet" >
+		
+		<style>
+			* {
+				padding:0;
+				margin:0;
+				box-sizing:border-box;
+			}
+			
+			html {
+				width:100%;
+				height:100%;
+			}
+			
+			body {
+				width:100%;
+				height:100%;
+				color: #000;
+				background-color: #fff;
+			}
+					
+			.container {
+				margin-right: auto;
+				margin-left: auto;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+	
+			span {
+				color: #333;
+			}
+
+			#board_title {
+				font-size:1.2em;
+				font-weight:bold;
+				color:teal;
+			}
+
+		</style>
+		
+		
+		<script src="/public/jquery-3.1.1.min.js"></script>
+		<script src="/public/semantic.min.js"></script>
+		 
+	</head>
+	<body>
+    	
+    	<div class="container">
+    		<br>
+    		
+			<div class="ui raised segment">
+				<a class="ui blue ribbon label">조회결과</a>
+      			<span id="board_title"><%=title %></span>
+			
+				
+				<div class="ui blue fluid card">
+					 <div class="content">
+       		
+			      		
+						<div class="ui grid">
+                            <div class="two wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">번호</h4>
+                                </div>
+                            </div>
+                            <div class="two wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">아이디</h4>
+                                </div>
+                            </div>
+			   				<div class="three wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">이름</h4>
+                                </div>
+                            </div>
+                            <div class="two wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">성별</h4>
+                                </div>
+                            </div>
+			   				<div class="three wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">생년월일</h4>
+                                </div>
+                            </div>
+                            <div class="two wide column">
+                                <div class="ui header">
+                                    <h4 class="ui center aligned orange header">직종</h4>
+                                </div>
+                            </div>
+			   			</div>
+
+						<div class="ui very relaxed selection celled list">
+							<%  
+							    for (var i = 0; i < result.length; i++) {
+                                   var curNo = result.length - i;
+								   var curId = result[i].id;
+								   var curName = result[i].last_name + result[i].first_name;
+                                   var curGender = result[i].gender;
+								   var curBirth = result[i].birth;
+								   var curEmpType = result[i].emp_type;
+								   %>
+								    <div class="item">
+										<div class="ui grid">
+						    				<div class="two wide column"><%=curNo %></div>
+						    				<div class="two wide column">
+						    					<div class="ui header">
+										    		<h4 class="ui center aligned header">
+										    			<%=curId %>
+										    		</h4>
+                                                </div>
+                                            </div>
+                                            <div class="three wide column">
+						    					<div class="ui header">
+										    		<h4 class="ui center aligned header">
+										    			<%=curName %>
+										    		</h4>
+                                                </div>
+                                            </div>
+                                            <div class="two wide column">
+						    					<div class="ui header">
+										    		<h4 class="ui center aligned header">
+										    			<%=curGender %>
+										    		</h4>
+                                                </div>
+                                            </div>
+                                            <div class="three wide column">
+						    					<div class="ui header">
+										    		<h4 class="ui center aligned header">
+										    			<%=curBirth %>
+										    		</h4>
+                                                </div>
+                                            </div>
+											<div class="two wide column">
+						    					<div class="ui header">
+										    		<h4 class="ui center aligned header">
+										    			<%=curEmpType %>
+										    		</h4>
+                                                </div>
+                                            </div>
+						    			</div>
+						    		</div>
+							<% } %>	
+						 
+				    	</div>
+			    	 
+			       		<br>
+						 
+						<br><br>
+						<a class="ui button" href='javascript:history.back()'>뒤로</a>
+					
+					</div>
+				</div>
+				 
+			</div>
+		</div>
+		 
+	</body>
+</html>
+
