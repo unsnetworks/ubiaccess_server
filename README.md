@@ -1,6 +1,6 @@
 # **UbiAccess Server**
 
-UbiAccess server is a highly-extensible, open-source Node.js framework with MVC pattern. It enables you to create dynamic end-to-end REST APIs for web front-end and mobile app with little or zero coding in less than 30 seconds.
+UbiAccess server is a highly-extensible, open-source Node.js framework with MVC pattern. It enables you to create dynamic end-to-end REST APIs for web front-end and mobile app with little or zero coding in less than 30 seconds. Relational database such as MySQL and Oracle can be accessed with only a few steps.
 
 ###  
 
@@ -36,13 +36,19 @@ REST API is ready to use and JSON nature of UbiAccess server will make you feel 
 
  
 
-#### 6. Extended to LBS and Medical domain
+#### 6. Out-of-the-box Database Access
+
+Relational database such as MySQL and Oracle can be accessed with MVC pattern. UbiAccess Server has several utility functions to handle database query and this makes it simple and powerful. You can extend DAO functions as you want to address requirements of your project.
+
+ 
+
+#### 7. Extended to LBS and Medical domain
 
 If you want to make LBS(Location Based Service) applied web service or mobile app, you are able to use spatial databases in existing databases such as MySQL(or MariaDB) or MongoDB. UbiAccess Server shows how to use MySQL and MongoDB as spatial database to make LBS service. There are also extended examples and documentation for medical domain. Mobile EHR or Fhir standard can be extended on this server.
 
 
 
-#### 7. Open Source
+#### 8. Open Source
 
 Open sourced to the world under MIT License. Get involved. Submit an issue/bug on Github.
 
