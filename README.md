@@ -809,5 +809,5 @@ Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/serv
 
 This package was created by Mike and members of U&S Networks Inc. but hopefully developed and maintained by many others.
 
-You can also [sponsor the project](https://serverjs.io/sponsor), get your logo in here and some other perks with tons of ♥
+You can also [sponsor the project](http://unsnetworks.com/sponsor), get your logo in here and some other perks with tons of ♥
 
