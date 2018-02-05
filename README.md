@@ -96,7 +96,7 @@ Let’s add a simple ‘Hello world!’ controller as follows:
   let thisModule = {};
 
   thisModule.hello = (req, res) => {
-      util.sendHtml(res, 'Hello world!');
+    util.sendHtml(res, 'Hello world!');
   };
 
   module.exports = thisModule;
@@ -138,15 +138,15 @@ Let’s add a simple ‘Hello world!’ controller as follows:
 
 ```html
 <body>
-        <h1>Hello example</h1>
-        <br>
-        <div>
-           <input type="button" value="Request" onclick="request()" >
-        </div>
-        <hr>
-        <p>Response</p>
-        <div id="output"></div>
-    </body>
+  <h1>Hello example</h1>
+  <br>
+  <div>
+    <input type="button" value="Request" onclick="request()" >
+  </div>
+  <hr>
+  <p>Response</p>
+  <div id="output"></div>
+</body>
 ```
 
 ​      The web page shows a button. If you click the button, request method is called. 
@@ -219,12 +219,12 @@ let logger = require('../logger');
 var thisModule = {};
 
 thisModule.params = (req, res) => {
-    logger.debug('params:params controller called.');
+  logger.debug('params:params controller called.');
 
-    const params = req.query;
-    logger.debug('PARAMS -> ' + JSON.stringify(params));
+  const params = req.query;
+  logger.debug('PARAMS -> ' + JSON.stringify(params));
 
-    util.sendHtml(res, 'PARAMS -> ' + JSON.stringify(params));
+  util.sendHtml(res, 'PARAMS -> ' + JSON.stringify(params));
 };
 
 module.exports = thisModule;
@@ -307,13 +307,13 @@ let logger = require('../logger');
 let thisModule = {};
 
 thisModule.json = (req, res) => {
-    logger.debug('json:json controller called.');
+  logger.debug('json:json controller called.');
 
-    let params = req.body;
-    logger.debug('PARAMS -> ' + JSON.stringify(params));
+  let params = req.body;
+  logger.debug('PARAMS -> ' + JSON.stringify(params));
 
-    util.sendJson(res, params.requestCode, 200, 'success', 
-                  'string', 'PARAMS -> ' + JSON.stringify(params));
+  util.sendJson(res, params.requestCode, 200, 'success', 
+                'string', 'PARAMS -> ' + JSON.stringify(params));
 };
 
 module.exports = thisModule;
@@ -468,10 +468,10 @@ let sql = {
 };
 
 thisModule.readCountry = (pool, data, callback) => {
-	logger.debug('world.readCountry DAO called.');
-    logger.debug(JSON.stringify(data));
+  logger.debug('world.readCountry DAO called.');
+  logger.debug(JSON.stringify(data));
 	
-	pool.execute(pool, sql.readCountry, data, callback);
+  pool.execute(pool, sql.readCountry, data, callback);
 };
 
 module.exports = thisModule;
@@ -511,10 +511,10 @@ module.exports = [
 
 ```javascript
 thisModule.readCountry = (req, res) => {
-    logger.debug('world:readCountry controller called.');
+  logger.debug('world:readCountry controller called.');
 
-    var params = req.body;
-    logger.debug('PARAMS -> ' + JSON.stringify(params));
+  var params = req.body;
+  logger.debug('PARAMS -> ' + JSON.stringify(params));
 ```
 
 ​      You can use query method to use DAO method defined in the world.js DAO file. 
