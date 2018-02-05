@@ -42,9 +42,11 @@ Open sourced to the world under MIT License. Get involved. Submit an issue/bug o
 
  
 
+
+
 ## **Getting started**
 
-1. Quick installation using is as follows.
+1. Quick installation using npm is as follows.
 
 ```
 npm install ubiaccess_server
@@ -88,7 +90,7 @@ Let’s add a simple ‘Hello world!’ controller as follows:
   module.exports = thisModule;
   ```
 
- 
+
 
 -  Update /config/controller_config.js to add the controller:
 
@@ -98,7 +100,7 @@ Let’s add a simple ‘Hello world!’ controller as follows:
        type:'get', upload:''},
   ```
 
- 
+
 
 - Restart the server using ‘npm start’ or ‘node app.js’
 
@@ -107,6 +109,10 @@ Let’s add a simple ‘Hello world!’ controller as follows:
 
 
 - Visit <http://127.0.0.1:3000/examples/hello> in a web browser to see ‘Hello world!’
+
+
+
+
 
 
 
@@ -183,6 +189,8 @@ function request() {
 
 
 
+
+
 ### 2. Parameter listing and Logging
 
 - Create a new file in /controller called params.js.
@@ -256,6 +264,10 @@ function request() {
 
 
 - Visit http://localhost:3000/public/params.html in a web browser and click the request button.
+
+
+
+
 
 
 
@@ -337,7 +349,11 @@ function request() {
 
 - Visit http://localhost:3000/public/params.html in a web browser and click the request button.
 
- 
+
+
+
+
+
 
 ### 4. Configuration for Logging
 
@@ -367,6 +383,8 @@ function request() {
 ```
 
  
+
+
 
 ### 5. MySQL Database and DAO
 
@@ -539,6 +557,8 @@ function readCountry() {
 
 
 
+
+
 ### 6. Column mapping and handling of query results
 
 ​      You can use utility functions in DAO file.
@@ -549,11 +569,11 @@ function readCountry() {
 
 - Create a readCountry2 function in /controller/world.js file.
 
-\      Just copy readCountry function and change name of the function.
+​      Just copy readCountry function and change name of the function.
 
-​      add mapper variable.
+​      Add mapper variable.
 
-​      name column will be mapped to name property in response and GNP column to GNP perperty.
+​      The name column will be mapped to name property in response and GNP column to GNP perperty.
 
 ```javascript
 let mapper = {
@@ -595,6 +615,8 @@ let values = {
 ​      Only name and GNP columns are printed. Those columns are mapped incontroller.
 
  
+
+
 
 ### 7. Direct handling of query results
 
@@ -654,6 +676,8 @@ util.query(values, (output) => {
 
  
 
+
+
 ### 8. Creating Update Controller
 
 - Add updateCountry DAO function in database/world.js file.
@@ -667,7 +691,11 @@ util.query(values, (output) => {
 
 - Open world.html file and click updateCountry button
 
- 
+
+
+
+
+
 
 ### 9. Direct handling of update results
 
@@ -679,7 +707,11 @@ util.query(values, (output) => {
 
 - Open world.html file and click updateCountry2 button
 
- 
+
+
+
+
+
 
 ### 10. Query emp table using Oracle Database
 
@@ -692,7 +724,11 @@ util.query(values, (output) => {
 - Register getEmployee function in config/controller_config.js
 - Open employee.html file and click getEmployee button
 
- 
+
+
+
+
+
 
 ### 11. Update emp table
 
@@ -700,7 +736,11 @@ util.query(values, (output) => {
 - Register updateEmployee function in config/controller_config.js
 - Open employee.html file and click updateEmployee button.
 
- 
+
+
+
+
+
 
 ### 12. File Upload
 
@@ -714,19 +754,34 @@ util.query(values, (output) => {
 
 
 
+
+
+
+
 ## Documentation
 
-- There are additional documentation for this server.
-- Socket.IO, RPC examples and documentation
-- LBS(Location Based Service) examples and documentation
-- Medical examples and documentation
+- There are additional examples and documentation for this server.
+
+
+| Examples and Documentation               |
+| ---------------------------------------- |
+| Socket.IO, RPC examples and documentation |
+| LBS(Location Based Service) examples and documentation |
+| Medical(EHR) examples and documentation  |
+| Mobile App examples for Basic functions, LBS and Medical |
+
 - For more information, please feel free to ask. 
 
- 
+
+
+
+
 
 ## License
 
 Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/server/blob/master/LICENSE) for the full license.
+
+
 
 
 
