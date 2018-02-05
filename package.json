@@ -1,5 +1,5 @@
 {
-  "name": "ubiaccess-server",
+  "name": "ubiaccess_server",
   "version": "1.0.1",
   "description": "Web and mobile middleware for cloud service",
   "main": "app.js",
