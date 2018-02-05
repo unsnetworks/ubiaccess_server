@@ -6,37 +6,37 @@ UbiAccess server is a highly-extensible, open-source Node.js framework that enab
 
 ## **Features**
 
-1. Node.js based framework
+1. ##### Node.js based framework
 
 UbiAccess exploits benefits of Node.js especially for application framework running on cloud. Web developers can use one language and technology for both front-end and back-end development. Mobile developers can also access to this framework with its outstanding performance and without the concerns of concurrency and heavy CPU processing. 
 
  
 
-2. Integration Framework
+2. ##### Integration Framework
 
 UbiAccess provides an ideal integration framework for web developers and mobile developers. Leveraging the power of Node.js and high-level database abstractions, UbiAccess can connect together. There is so much to be connected together including inbound and outbound sockets and HTTP requests and responses in this framework.
 
  
 
-3. REST, Ajax & Web Socket APIs
+3. ##### REST, Ajax & Web Socket APIs
 
 REST API is ready to use and JSON nature of UbiAccess server will make you feel comfortable in developing client apps which connect to this framework. Web developers can use Ajax to connect to this framework and Web Socket is also covered using socket.io library.
 
  
 
-4. Rapid Development
+4. ##### Rapid Development
 
 With its simple configuration, UbiAccess server has been crafted with ease of use in mind. Real world web application or application module for mobile apps can be made quickly. For example, tiny application server functions can be made in 1 or 2 days.
 
  
 
-5. MVC
+5. ##### MVC (Model-View-Controller) Pattern
 
-MVC(Model-View-Controller) pattern is prevalent in providing web service. UbiAccess server is designed using MVC pattern and any developers can make a module quickly after accustomed to it.
+MVC pattern is prevalent in providing web service. UbiAccess server is designed using MVC pattern and any developers can make a module quickly after accustomed to it.
 
  
 
-6. Open Source
+6. ##### Open Source
 
 Open sourced to the world under MIT License. Get involved. Submit an issue/bug on Github.
 
@@ -689,7 +689,8 @@ util.query(values, (output) => {
 - Register updateCountry controller function inconfig/controller_config.js
 
 
-- Open world.html file and click updateCountry button
+- Open world.html file and click updateCountry button.
+- See examples for more information.
 
 
 
@@ -705,7 +706,8 @@ util.query(values, (output) => {
 - Register updateCountry2 controller function in config/controller_config.js
 
 
-- Open world.html file and click updateCountry2 button
+- Open world.html file and click updateCountry2 button.
+- See examples for more information.
 
 
 
@@ -722,7 +724,8 @@ util.query(values, (output) => {
 - Create employee.js file in controller folder.
 - Add getEmployee function in employee.js file.
 - Register getEmployee function in config/controller_config.js
-- Open employee.html file and click getEmployee button
+- Open employee.html file and click getEmployee button.
+- See examples for more information.
 
 
 
@@ -735,6 +738,7 @@ util.query(values, (output) => {
 - Add updateEmployee employee.js function incontroller/employee.js file.
 - Register updateEmployee function in config/controller_config.js
 - Open employee.html file and click updateEmployee button.
+- See examples for more information.
 
 
 
@@ -751,6 +755,7 @@ util.query(values, (output) => {
 - Create controller/memo.js file and add insertMemo function
 - Register insertMemo controller in config/controller_config.js
 - Open memo.html and enter texts and select an image file before clicking save button.
+- See examples for more information.
 
 
 
@@ -763,12 +768,15 @@ util.query(values, (output) => {
 - There are additional examples and documentation for this server.
 
 
-| Examples and Documentation               |
-| ---------------------------------------- |
-| Socket.IO, RPC examples and documentation |
-| LBS(Location Based Service) examples and documentation |
-| Medical(EHR) examples and documentation  |
-| Mobile App examples for Basic functions, LBS and Medical |
+1. Mobile App examples and documentation
+
+2. Socket.IO, RPC examples and documentation
+
+3. LBS(Location Based Service) examples and documentation
+
+4. Medical(EHR) examples and documentation
+
+   ​
 
 - For more information, please feel free to ask. 
 
