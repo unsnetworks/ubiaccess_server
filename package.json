@@ -1,13 +1,17 @@
 {
-  "name": "ubiaccess_server",
-  "version": "1.0.0",
+  "name": "ubiaccess-server",
+  "version": "1.0.1",
   "description": "Web and mobile middleware for cloud service",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "U&S Networks Inc.",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+     "type": "git",
+     "url": "https://github.com/unsnetworks/ubiaccess_server.git"
+  },
   "dependencies": {
     "atob": "^2.0.3",
     "body-parser": "^1.17.1",
