@@ -1,7 +1,7 @@
 {
   "name": "ubiaccess_server",
-  "version": "1.0.1",
-  "description": "Web and mobile middleware for cloud service",
+  "version": "1.0.2",
+  "description": "Web and mobile middleware for cloud service with MVC",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
