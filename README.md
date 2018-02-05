@@ -6,37 +6,43 @@ UbiAccess server is a highly-extensible, open-source Node.js framework with MVC 
 
 ## **Features**
 
-#### 1. Node.js based framework
+#### 1. Node.js based framework for Cloud Service
 
-UbiAccess exploits benefits of Node.js especially for application framework running on cloud. Web developers can use one language and technology for both front-end and back-end development. Mobile developers can also access to this framework with its outstanding performance and without the concerns of concurrency and heavy CPU processing. 
+UbiAccess server exploits benefits of Node.js especially for application framework running on cloud. Web developers can use one language and technology for both front-end and back-end development. Mobile developers can also access to this framework with its outstanding performance and without the concerns of concurrency and heavy CPU processing. 
 
  
 
-#### 2. Integration Framework
+#### 2. MVC (Model-View-Controller) Pattern
+
+MVC pattern is prevalent in providing web service. Many Spring developers are good at coding with MVC pattern. UbiAccess server is designed using MVC pattern and any developers accustomed to MVC can make server modules for web and mobile clients quickly.
+
+ 
+
+#### 3. Integration Framework for Web and Mobile Service
 
 UbiAccess provides an ideal integration framework for web developers and mobile developers. Leveraging the power of Node.js and high-level database abstractions, UbiAccess can connect together. There is so much to be connected together including inbound and outbound sockets and HTTP requests and responses in this framework.
 
 ####  
 
-#### 3. REST, Ajax & Web Socket APIs
-
-REST API is ready to use and JSON nature of UbiAccess server will make you feel comfortable in developing client apps which connect to this framework. Web developers can use Ajax to connect to this framework and Web Socket is also covered using socket.io library.
-
- 
-
-#### 4. Rapid Development
+#### 4. Rapid Development in 1 or 2 Days only
 
 With its simple configuration, UbiAccess server has been crafted with ease of use in mind. Real world web application or application module for mobile apps can be made quickly. For example, tiny application server functions can be made in 1 or 2 days.
 
  
 
-#### 5. MVC (Model-View-Controller) Pattern
+#### 5. Support for REST, Ajax, RPC & Web Socket APIs
 
-MVC pattern is prevalent in providing web service. UbiAccess server is designed using MVC pattern and any developers can make a module quickly after accustomed to it.
+REST API is ready to use and JSON nature of UbiAccess server will make you feel comfortable in developing client apps which connect to this framework. Web developers can use Ajax to connect to this framework and Web Socket is also covered using socket.io library.
 
  
 
-#### 6. Open Source
+#### 6. Extended to LBS and Medical domain
+
+If you want to make LBS(Location Based Service) applied web service or mobile app, you are able to use spatial databases in existing databases such as MySQL(or MariaDB) or MongoDB. UbiAccess Server shows how to use MySQL and MongoDB as spatial database to make LBS service. There are also extended examples and documentation for medical domain. Mobile EHR or Fhir standard can be extended on this server.
+
+
+
+#### 7. Open Source
 
 Open sourced to the world under MIT License. Get involved. Submit an issue/bug on Github.
 
