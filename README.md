@@ -199,6 +199,8 @@ function request() {
 
 ​      You can see response data
 
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_01.png)
+
 
 
 
@@ -246,6 +248,12 @@ let thisModule = [
 - Visit <http://127.0.0.1:3000/examples/params>?id=john in a web browser to see parameter passed to the server.
 
 
+
+
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_02.png)
+
+
+
 - Create a file called params.html in public folder and make a request using axios
 
 ```javascript
@@ -277,6 +285,8 @@ function request() {
 
 - Visit http://localhost:3000/public/params.html in a web browser and click the request button.
 
+
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_03.png)
 
 
 
@@ -361,6 +371,8 @@ function request() {
 
 - Visit http://localhost:3000/public/params.html in a web browser and click the request button.
 
+
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_04.png)
 
 
 
@@ -569,6 +581,10 @@ function readCountry() {
 
 
 
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_05.png)
+
+
+
 
 
 ### 6. Column mapping and handling of query results
@@ -626,7 +642,11 @@ let values = {
 
 ​      Only name and GNP columns are printed. Those columns are mapped incontroller.
 
- 
+
+
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_06.png) 
+
+
 
 
 
@@ -686,7 +706,11 @@ util.query(values, (output) => {
 
 ​      added property is added in the controller.
 
- 
+
+
+![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_07.png) 
+
+
 
 
 
@@ -799,7 +823,7 @@ util.query(values, (output) => {
 
 ## License
 
-Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/server/blob/master/LICENSE) for the full license.
+Licensed under the MIT License. See [LICENSE](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/LICENSE) for the full license.
 
 
 
