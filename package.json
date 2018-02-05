@@ -1,7 +1,7 @@
 {
-  "name": "ubiaccess_fhir",
+  "name": "ubiaccess_server",
   "version": "1.0.0",
-  "description": "UbiAccess middleware for EHR based on FHIR",
+  "description": "Web and mobile middleware for cloud service",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
