@@ -369,7 +369,7 @@ function request() {
 
 
 
-- Visit http://localhost:3000/public/params.html in a web browser and click the request button.
+- Visit http://localhost:3000/public/json.html in a web browser and click the request button.
 
 
 ![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_04.png)

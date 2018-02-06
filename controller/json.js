@@ -16,7 +16,7 @@ thisModule.json = (req, res) => {
     logger.debug('PARAMS -> ' + JSON.stringify(params));
 
     util.sendJson(res, params.requestCode, 200, 'success', 
-                  'string', 'PARAMS -> ' + JSON.stringify(params));
+                  'string', JSON.stringify(params));
 };
 
 module.exports = thisModule;
