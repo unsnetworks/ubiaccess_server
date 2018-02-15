@@ -20,20 +20,6 @@ module.exports = {
             database : 'test',
             debug    :  false,
             stat_database : 'ubiaccess'
-        },
-        {                                   // #1 test database for Oracle
-            name : 'database_oracle',
-            type : 'oracle',
-            user     : 'C##TEST',
-            password : 'test1234$',
-            connectString: '127.0.0.1:1521/orcl',
-            poolMin: 0,
-            poolMax: 10
-        },
-        {                                   // #2 test database for SQLite
-            name : 'database_sqlite',
-            type : 'sqlite',
-            file : 'users.db'
         }
     ],
     db_stat: {                              // database for stat logging
