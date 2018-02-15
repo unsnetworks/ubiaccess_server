@@ -4,7 +4,7 @@
   "description": "Web and mobile middleware for cloud service with MVC",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "echo \"postinstall called.\""
   },
   "author": "U&S Networks Inc.",
   "license": "MIT",
