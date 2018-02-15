@@ -52,15 +52,13 @@ If you want to make LBS(Location Based Service) applied web service or mobile ap
 
 Open sourced to the world under MIT License. Get involved. Submit an issue/bug on Github.
 
- 
+
 
 
 
 ## **Getting started**
 
 1. Clone or download this server package using [Clone or download > Download ZIP] menu.
-
-   ​
 
 2. Unzip the downloaded zip file (ubiaccess_server-master.zip), rename it to 'ubiaccess_server' and execute install command using npm after changing directory to it. 
 
@@ -232,6 +230,8 @@ function request() {
 
 
 
+
+
 ### 2. Parameter listing and Logging
 
 - Create a new file in /controller called params.js.
@@ -314,6 +314,8 @@ function request() {
 
 
 ![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_03.png)
+
+
 
 
 
@@ -406,6 +408,8 @@ function request() {
 
 
 
+
+
 ### 4. Configuration for Logging
 
 - Log files are created in log folder and the daily rotated file name is server.
@@ -434,6 +438,8 @@ function request() {
 ```
 
  
+
+
 
 
 
@@ -614,6 +620,8 @@ function readCountry() {
 
 
 
+
+
 ### 6. Column mapping and handling of query results
 
 ​      You can use utility functions in DAO file.
@@ -672,6 +680,8 @@ let values = {
 
 
 ![](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/screenshots/manual_capture_06.png) 
+
+
 
 
 
@@ -741,6 +751,8 @@ util.query(values, (output) => {
 
 
 
+
+
 ### 8. Creating Update Controller
 
 - Add updateCountry DAO function in database/world.js file.
@@ -761,6 +773,8 @@ util.query(values, (output) => {
 
 
 
+
+
 ### 9. Direct handling of update results
 
 - Add updateCountry2 controller function in controller/world.jsfile.
@@ -771,6 +785,8 @@ util.query(values, (output) => {
 
 - Open world.html file and click updateCountry2 button.
 - See examples for more information.
+
+
 
 
 
@@ -796,12 +812,16 @@ util.query(values, (output) => {
 
 
 
+
+
 ### 11. Update emp table
 
 - Add updateEmployee employee.js function incontroller/employee.js file.
 - Register updateEmployee function in config/controller_config.js
 - Open employee.html file and click updateEmployee button.
 - See examples for more information.
+
+
 
 
 
@@ -819,6 +839,8 @@ util.query(values, (output) => {
 - Register insertMemo controller in config/controller_config.js
 - Open memo.html and enter texts and select an image file before clicking save button.
 - See examples for more information.
+
+
 
 
 
@@ -848,9 +870,13 @@ util.query(values, (output) => {
 
 
 
+
+
 ## License
 
 Licensed under the MIT License. See [LICENSE](https://github.com/unsnetworks/ubiaccess_server/blob/master/docs/LICENSE) for the full license.
+
+
 
 
 
