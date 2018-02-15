@@ -58,21 +58,41 @@ Open sourced to the world under MIT License. Get involved. Submit an issue/bug o
 
 ## **Getting started**
 
-1. Quick installation using npm is as follows.
+1. Clone or download this server package using [Clone or download > Download ZIP] menu.
+2. Unzip the downloaded zip file (ubiaccess_server-master.zip), rename it to 'ubiaccess_server' and execute install command using npm after changing directory to it. Shell commands are as follows.
 
 ```
-npm install ubiaccess_server
+cd ubiaccess_server
+npm install
 ```
 
 >  UbiAccess Server requires Node.js 8.x or newer. Node.js 8.9.x LTS is recommended for long-term support from Node.js team.
 
-Then you can change directory to the node_modules/ubiaccess_server.
+
+
+3. If you want to connect to Oracle database, instant client is needed to be installed first. Refer to the following site.
+
+   [Oracle Instant Client Download]: http://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html
+
+   > Microsoft Visual Studio 2013 Redistributable is required to install Oracle Instant Client on Windows machines. 
+   >
+   > [Microsoft Visual Studio 2013 Redistributable Download]: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads#bookmark-vs2013
+   >
+   > Installed location needs to be added to [Path] system variable if you are using Windows OS.
 
 
 
-2. Starting the server
+4. If you want to connect to SQLite database, runtime files are needed to be installed first. Refer to the following site.
 
-Run node command to get the server started.
+   [SQLite Download]: https://www.sqlite.org/download.html
+
+   > Installed location needs to be added to [Path] system variable if you are using Windows OS.
+
+
+
+5. Starting the server
+
+   Run node command to get the server started.
 
 ```
  node app.js
@@ -80,11 +100,11 @@ Run node command to get the server started.
 
 
 
-3. Adding your own controller
+6. Adding your own controller
 
-Now that we started the server, it’s time to add our own controller.
+   Now that we started the server, it’s time to add our own controller.
 
-Let’s add a simple ‘Hello world!’ controller as follows:
+   Let’s add a simple ‘Hello world!’ controller as follows:
 
 - Create a new file in /controller called hello.js.
 
@@ -116,7 +136,7 @@ Let’s add a simple ‘Hello world!’ controller as follows:
 
 - Restart the server using ‘npm start’ or ‘node app.js’
 
->  If your server is still running,press CTRL+C to stop it before restarting it.
+  > If your server is still running,press CTRL+C to stop it before restarting it.
 
 
 
