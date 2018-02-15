@@ -76,7 +76,9 @@ npm install
 
 3. If you want to connect to Oracle database, instant client is needed to be installed first. Refer to the following site.
 
-   [Oracle Instant Client Download]: http://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html
+    [Oracle Instant Client Download](http://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html) 
+
+   ​
 
    > Microsoft Visual Studio 2013 Redistributable is required to install Oracle Instant Client on Windows machines. 
    >
@@ -89,7 +91,7 @@ npm install
 
 4. If you want to connect to SQLite database, runtime files are needed to be installed first. Refer to the following site.
 
-   [SQLite Download]: https://www.sqlite.org/download.html
+    [SQLite Download](https://www.sqlite.org/download.html) 
 
    > Installed location needs to be added to [Path] system variable if you are using Windows OS.
 
