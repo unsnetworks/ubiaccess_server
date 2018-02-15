@@ -78,8 +78,6 @@ npm install
 
     [Oracle Instant Client Download](http://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html) 
 
-   ​
-
    > Microsoft Visual Studio 2013 Redistributable is required to install Oracle Instant Client on Windows machines. 
    >
    > [Microsoft Visual Studio 2013 Redistributable Download]: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads#bookmark-vs2013
