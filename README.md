@@ -60,13 +60,14 @@ Open sourced to the world under MIT License. Get involved. Submit an issue/bug o
 
 1. Clone or download this server package using [Clone or download > Download ZIP] menu.
 
+   ​
+
 2. Unzip the downloaded zip file (ubiaccess_server-master.zip), rename it to 'ubiaccess_server' and execute install command using npm after changing directory to it. 
 
    - Shell commands are as follows.
 
      > Node.js 8.9.x LTS is recommended for long-term support from Node.js team.
 
-   ​
 
 ```shell
 cd ubiaccess_server
@@ -84,6 +85,7 @@ npm install
    > [Microsoft Visual Studio 2013 Redistributable Download]: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads#bookmark-vs2013
    >
    > Installed location needs to be added to [Path] system variable if you are using Windows OS.
+
 
 
 
