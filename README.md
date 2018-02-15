@@ -74,7 +74,7 @@ npm install
 
 
 
-3. If you want to connect to Oracle database, instant client is needed to be installed first. Refer to the following site.
+3. **[Optional]** If you want to connect to Oracle database, instant client is needed to be installed first. Refer to the following site.
 
     [Oracle Instant Client Download](http://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html) 
 
@@ -87,7 +87,7 @@ npm install
 
 
 
-4. If you want to connect to SQLite database, runtime files are needed to be installed first. Refer to the following site.
+4. **[Optional]** If you want to connect to SQLite database, runtime files are needed to be installed first. Refer to the following site.
 
     [SQLite Download](https://www.sqlite.org/download.html) 
 
