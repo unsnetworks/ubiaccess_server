@@ -59,14 +59,19 @@ Open sourced to the world under MIT License. Get involved. Submit an issue/bug o
 ## **Getting started**
 
 1. Clone or download this server package using [Clone or download > Download ZIP] menu.
-2. Unzip the downloaded zip file (ubiaccess_server-master.zip), rename it to 'ubiaccess_server' and execute install command using npm after changing directory to it. Shell commands are as follows.
 
-```
+2. Unzip the downloaded zip file (ubiaccess_server-master.zip), rename it to 'ubiaccess_server' and execute install command using npm after changing directory to it. 
+
+   - Shell commands are as follows.
+
+     > Node.js 8.9.x LTS is recommended for long-term support from Node.js team.
+
+   ​
+
+```shell
 cd ubiaccess_server
 npm install
 ```
-
->  UbiAccess Server requires Node.js 8.x or newer. Node.js 8.9.x LTS is recommended for long-term support from Node.js team.
 
 
 
@@ -94,7 +99,7 @@ npm install
 
    Run node command to get the server started.
 
-```
+```shell
  node app.js
 ```
 
