@@ -827,7 +827,7 @@ util.query(values, (output) => {
 
 - Requests from android apps are also simple.
 
-- See example app sources.
+- See example android apps using Volley and Gson.
 
   [Android App Examples](https://github.com/unsnetworks/ubiaccess_examples_app) 
 
@@ -849,11 +849,8 @@ util.query(values, (output) => {
 
 4. Medical(EHR) examples and documentation
 
-   ​
 
 - For more information, please feel free to ask. 
-
-
 
 
 
