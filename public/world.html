@@ -20,12 +20,12 @@
                 
             });
             
-            function getCountry() {
+            function readCountry() {
                 var name = $('#nameInput').val();
                 
                 axios({
                     method:'post',
-                    url:'http://127.0.0.1:3000/examples/getCountry',
+                    url:'http://127.0.0.1:3000/examples/readCountry',
                     responseType:'json',
                     data: {
                         requestCode: 101,
@@ -54,12 +54,12 @@
                 });
             }
             
-            function getCountry2() {
+            function readCountry2() {
                 var name = $('#nameInput').val();
                 
                 axios({
                     method:'post',
-                    url:'http://127.0.0.1:3000/examples/getCountry2',
+                    url:'http://127.0.0.1:3000/examples/readCountry2',
                     responseType:'json',
                     data: {
                         requestCode: 101,
@@ -89,12 +89,12 @@
             }
             
             
-            function getCountry3() {
+            function readCountry3() {
                 var name = $('#nameInput').val();
                 
                 axios({
                     method:'post',
-                    url:'http://127.0.0.1:3000/examples/getCountry3',
+                    url:'http://127.0.0.1:3000/examples/readCountry3',
                     responseType:'json',
                     data: {
                         requestCode: 101,
@@ -219,11 +219,11 @@
             <input type="text" value="2000" id="GNPInput" >
             
             <div>
-                <input type="button" value="getCountry" onclick="getCountry()" >
-                <input type="button" value="getCountry(No mapper)" onclick="getCountry2()" >
-                <input type="button" value="getCountry(Result handling)" onclick="getCountry3()" >
+                <input type="button" value="readCountry" onclick="readCountry()" >
+                <input type="button" value="readCountry2" onclick="readCountry2()" >
+                <input type="button" value="readCountry3" onclick="readCountry3()" >
                 <input type="button" value="updateCountry" onclick="updateCountry()" >
-                <input type="button" value="updateCountry(Result handling)" onclick="updateCountry2()" >
+                <input type="button" value="updateCountry2" onclick="updateCountry2()" >
             </div>
             
             <div>

@@ -22,7 +22,7 @@
             function request() {
                 axios({
                     method:'get',
-                    url:'http://127.0.0.1:3000/examples/hello',
+                    url:'http://localhost:3000/examples/hello',
                     responseType:'text'
                 }).then(function (response) {
                     console.log('Response -> ' + JSON.stringify(response));
@@ -38,7 +38,7 @@
             // print input data
             function println(data) {
                 console.log(data);
-                $('#response').append('<p>' + data + '</p>');
+                $('#output').append('<p>' + data + '</p>');
             }
             
         </script>
@@ -52,6 +52,6 @@
         </div>
         <hr>
         <p>Response</p>
-        <div id="response"></div>
+        <div id="output"></div>
     </body>
 </html>
