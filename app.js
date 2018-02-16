@@ -118,6 +118,7 @@ app.use(bodyParser.json())
 app.use('/', static(path.join(__dirname, 'root')));
 app.use('/public', static(path.join(__dirname, 'public')));
 app.use('/uploads', static(path.join(__dirname, 'uploads')));
+app.use('/admin', static(path.join(__dirname, 'admin', 'public')));
 
 
 // cookie-parser 
