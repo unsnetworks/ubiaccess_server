@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" >
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        <title>로그 관리자</title>
+        
+        <!-- 부트스트랩 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- 부트스트랩 테마 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- 데이터테이블 CSS -->
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+        
+        <!-- DateTimePicker CSS -->
+        <link rel="stylesheet" href="/public/bootstrap-datetimepicker.min.css">
+        
+        
+        
+        <style>
+        
+            table.dataTable tbody td {
+                vertical-align:middle;
+            }
+            
+            table.dataTable thead th, table.dataTable tbody td {
+                text-align:center;
+            }
+            
+            #pageButtons {
+                text-align:right;
+            }
+            
+            /* 대화상자의 애니메이션 없앰 */
+            .modal.fade, .modal.fade .modal-dialog {
+                -webkit-transition: none;
+                -moz-transition: none;
+                -ms-transition: none;
+                -o-transition: none;
+                transition: none;
+            }
+             
+            
+        </style>
+        
+        
+        <!-- 제이쿼리 JS -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        
+        <!-- 부트스트랩 JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <!-- 데이터테이블 JS -->
+        <script charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+
+        <!-- 프로그레스 JS -->
+        <script src="/public/spin.min.js"></script>
+        
+        <!-- 페이지 처리 JS -->
+        <script src="/public/manager_table_pagination.js"></script>
+        
+        <!-- 코드 편집기 -->
+        <script src="/public/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="/public/lib/codemirror.css">
+        <script src="/public/mode/javascript/javascript.js"></script>
+        <script src="/public/mode/xml/xml.js"></script>
+        <script src="/public/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="/public/mode/htmlembedded/htmlembedded.js"></script>
+        <script src="/public/addon/mode/multiplex.js"></script>
+        <script src="/public/base64.js"></script> 
+        <script src="/public/gzip.min.js"></script>
+        
+        <!-- DateTimePicker -->
+        <script src="/public/bootstrap-datetimepicker.min.js"></script>
+        <script src="/public/bootstrap-datetimepicker.ko.js"></script>
+        
+        <script src="/public/zlib_and_gzip.min.js"></script>
+        
+        
+        <script>
+            var editor;
+             
+            $(function() {
+                  
+                initCodeEditor();
+                 
+            });
+              
+             
+            function initCodeEditor() {
+                var codeTextArea = document.getElementById('CodeString');
+
+                editor = CodeMirror.fromTextArea(codeTextArea,
+                                {
+                                    mode: "javascript",
+                                    lineNumbers: true,
+                                    selectionPointer: true,
+                                    styleActiveLine: true
+                                }
+                          );
+  
+                $('.form_date').datetimepicker({
+                    language:  'ko',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0
+                });
+                $('.form_time').datetimepicker({
+                    language:  'ko',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 1,
+                    minView: 0,
+                    maxView: 1,
+                    forceParse: 0,
+                    minuteStep: 1
+                });
+                
+            }
+             
+            
+            function doGetLogFile() {
+                console.log('doGetViewFile 호출됨.');
+
+                var filename = $('#logFileSelect').val();
+                var fileDate = $('#fileDateInput').val();
+                var beginTime = $('#beginTimeInput').val();
+                var endTime = $('#endTimeInput').val();
+                
+                var requestCode = generateRequestCode();
+
+                var params = 'requestCode=' + requestCode;
+                params += '&filename=' + filename;
+                params += '&fileDate=' + fileDate;
+                params += '&beginTime=' + beginTime + ':00';
+                params += '&endTime=' + endTime + ':00';
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'get';
+                
+                var ajaxGetFilePath = '/manager/logfile';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('logfile에 대한 응답을 받았음.');
+                        
+                        var dataObj = JSON.parse(data);
+                        var decodedResult = Base64.decode(dataObj.result);
+                        showLogFile(decodedResult);
+                         
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            function showLogFile(result) {
+                //editor.setOption("mode", "xml");
+                editor.setOption("mode", "application/x-ejs");
+                editor.setValue(result);
+                
+                var lineCount = editor.lineCount()-1;
+                $('#lineCount').text(lineCount + ' lines');
+            }
+             
+            function doClear() {
+                //editor.setOption("mode", "xml");
+                editor.setOption("mode", "application/x-ejs");
+                editor.setValue('');
+                
+                var lineCount = editor.lineCount()-1;
+                $('#lineCount').text(lineCount + ' lines');
+            }
+             
+            
+            function println(data) {
+                $('#results').html('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+        
+    </head>
+    <body>
+    
+        <h3>로그 관리자</h3>
+        
+        <div class="container">
+            
+            <div class="form-group row">
+                <label for="logFileSelect" class="col-md-2 control-label">로그 파일 선택</label>
+                <div class="col-md-3">
+                    <select class="form-control" id="logFileSelect">
+                        <option value='server' selected>server</option>
+                        <option value='exception'>exception</option>
+                    </select>
+                </div>    
+            </div>
+            <br>
+            <br>
+            
+            <div class="form-group row">
+                <label for="fileDateInput" class="col-md-1 control-label">Date</label>
+                <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly id="fileDateInput">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <label for="beginTimeInput" class="col-md-1 control-label">From</label>
+                <div class="input-group date form_time col-md-3" data-date="" data-date-format="hh:ii">
+                    <input class="form-control" size="16" type="text" value="" readonly id="beginTimeInput">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <label for="endTimeInput" class="col-md-1 control-label">To</label>
+                <div class="input-group date form_time col-md-3" data-date="" data-date-format="hh:ii" >
+                    <input class="form-control" size="16" type="text" value="" readonly id="endTimeInput">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+             
+            <div class="btn-group">
+                <input type="button" value="로그 파일 조회" class="btn btn-default" onclick="doGetLogFile()" >
+                <input type="button" value="Clear" class="btn btn-default" onclick="doClear()" >
+            </div>
+            <br>
+            <br>
+            <label for="CodeString" class="control-label" id="lineCount">0 lines</label>
+            <br>
+            <div>
+                <textarea cols="100" id="CodeString" name="CodeString" rows="5" style="width:100%" wrap="logical">
+
+                </textarea>    
+            </div>
+            <br>
+            <br>
+        </div>
+ 
+        
+        <!-- 추가/수정 대화상자 -->
+        <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h3 class="modal-title">정보 수정</h3>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="pad" id="infopanel">
+                        </div>
+                        <div id="editDialogBody" class="form-horizontal">
+                             
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input type="button" value="저장" class="btn btn-primary" id="editDialogSaveButton" >
+                        <input type="button" value="닫기" class="btn btn-default" style="margin-left:0.5em" onclick="doModalEditClose()" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Confirm 대화상자 -->
+        <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalConfirmTitle" class="modal-title"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modalProgressView" style="height:150px">
+                            <span id="progressView" style="position:absolute; display:block; top:50%; left:50%;"></span>
+                        </div>
+                        <div id="modalTextView" style="height:50px">
+                            <span id="modalConfirmContents"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input id="modalConfirmButton1" type="button" class="btn btn-primary" >
+                        <input id="modalConfirmButton2" type="button" class="btn btn-default" style="margin-left:1em;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>

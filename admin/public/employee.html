@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>World</title>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
+                crossorigin="anonymous">
+        </script>
+        
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js">
+        </script>
+        
+        
+        <script>
+            $(function() {
+                
+            });
+            
+            function getEmployee() {
+                var name = $('#nameInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/getEmployee',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+             
+            
+            function updateEmployee() {
+                var name = $('#nameInput').val();
+                var salary = $('#salaryInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/updateEmployee',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name,
+                        salary: salary
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+             
+            
+            // clear log
+            function clearLog() {
+                $('#response').html('');
+            }
+            
+            // print input data
+            function println(data) {
+                console.log(data);
+                $('#response').append('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        <h1>Employee example</h1>
+        <br>
+        <div>
+            <input type="text" value="KING" id="nameInput" >
+            <input type="text" value="2000" id="salaryInput" >
+            
+            <div>
+                <input type="button" value="getEmployee" onclick="getEmployee()" >
+                <input type="button" value="updateEmployee" onclick="updateEmployee()" >
+            </div>
+            
+            <div>
+                <input type="button" value="clearLog" onclick="clearLog()" >
+            </div>
+        </div>
+        <hr>
+        <p>Response</p>
+        <div id="response"></div>
+    </body>
+</html>

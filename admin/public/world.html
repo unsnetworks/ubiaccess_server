@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>World</title>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
+                crossorigin="anonymous">
+        </script>
+        
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js">
+        </script>
+        
+        
+        <script>
+            $(function() {
+                
+            });
+            
+            function readCountry() {
+                var name = $('#nameInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/readCountry',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            function readCountry2() {
+                var name = $('#nameInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/readCountry2',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            
+            function readCountry3() {
+                var name = $('#nameInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/readCountry3',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            
+            function updateCountry() {
+                var name = $('#nameInput').val();
+                var GNP = $('#GNPInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/updateCountry',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name,
+                        GNP: GNP
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            function updateCountry2() {
+                var name = $('#nameInput').val();
+                var GNP = $('#GNPInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/updateCountry2',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        name: name,
+                        GNP: GNP
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        
+                        if (response.data.resultType == 'list') {
+                            println('result length : ' + response.data.result.length);
+                            
+                            response.data.result.forEach(function(item, index) {
+                                println('    #' + index + ' -> ' + JSON.stringify(item));
+                            });
+                        } else {
+                            println('result : ' + response.data.result);
+                        }
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            
+            // clear log
+            function clearLog() {
+                $('#response').html('');
+            }
+            
+            // print input data
+            function println(data) {
+                console.log(data);
+                $('#response').append('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        <h1>World example</h1>
+        <br>
+        <div>
+            <input type="text" value="United States" id="nameInput" >
+            <input type="text" value="2000" id="GNPInput" >
+            
+            <div>
+                <input type="button" value="readCountry" onclick="readCountry()" >
+                <input type="button" value="readCountry2" onclick="readCountry2()" >
+                <input type="button" value="readCountry3" onclick="readCountry3()" >
+                <input type="button" value="updateCountry" onclick="updateCountry()" >
+                <input type="button" value="updateCountry2" onclick="updateCountry2()" >
+            </div>
+            
+            <div>
+                <input type="button" value="clearLog" onclick="clearLog()" >
+            </div>
+        </div>
+        <hr>
+        <p>Response</p>
+        <div id="response"></div>
+    </body>
+</html>

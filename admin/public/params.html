@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Params</title>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
+                crossorigin="anonymous">
+        </script>
+        
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js">
+        </script>
+        
+        
+        <script>
+            $(function() {
+                
+            });
+            
+            function request() {
+                var id = $('#idInput').val();
+                
+                axios({
+                    method:'get',
+                    url:'http://127.0.0.1:3000/examples/params',
+                    responseType:'text',
+                    params: {
+                        id: id
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println(response.data);
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            // print input data
+            function println(data) {
+                console.log(data);
+                $('#response').append('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        <h1>Params example</h1>
+        <br>
+        <div>
+            <input type="text" value="john" id="idInput" >
+            <input type="button" value="Request" onclick="request()" >
+        </div>
+        <hr>
+        <p>Response</p>
+        <div id="response"></div>
+    </body>
+</html>

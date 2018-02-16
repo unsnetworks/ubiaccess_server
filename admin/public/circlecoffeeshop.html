@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>반경 내 커피숍 검색</title>
+    </head>
+    <body>
+        <h1>반경 내 커피숍 검색</h1>
+        
+        <br>
+        
+        <form method="post" action="/examples/findCircle">
+            <table>
+                <tr>
+                    <td><p>위도</p></td>
+                    <td><input type="text" name="center_latitude" value="37.5073101"></td>
+                </tr>
+                <tr>
+                    <td><p>경도</p></td>
+                    <td><input type="text" name="center_longitude" value="127.0621010"></td>
+                </tr>
+                <tr>
+                    <td><p>반경</p></td>
+                    <td><input type="text" name="distance" value="100"></td>
+                </tr>
+            </table>
+            <input type="submit" value="전송">
+            
+        </form>
+        
+    </body>
+</html>

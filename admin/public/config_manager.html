@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" >
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        <title>설정 관리자</title>
+        
+        <!-- 부트스트랩 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- 부트스트랩 테마 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- 데이터테이블 CSS -->
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+        
+        <style>
+        
+            table.dataTable tbody td {
+                vertical-align:middle;
+            }
+            
+            table.dataTable thead th, table.dataTable tbody td {
+                text-align:center;
+            }
+            
+            #pageButtons {
+                text-align:right;
+            }
+            
+            /* 대화상자의 애니메이션 없앰 */
+            .modal.fade, .modal.fade .modal-dialog {
+                -webkit-transition: none;
+                -moz-transition: none;
+                -ms-transition: none;
+                -o-transition: none;
+                transition: none;
+            }
+             
+            
+        </style>
+        
+        
+        <!-- 제이쿼리 JS -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        
+        <!-- 부트스트랩 JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <!-- 데이터테이블 JS -->
+        <script charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+
+        <!-- 프로그레스 JS -->
+        <script src="/public/spin.min.js"></script>
+        
+        <!-- 페이지 처리 JS -->
+        <script src="/public/manager_table_pagination.js"></script>
+        
+        <!-- 코드 편집기 -->
+        <script src="/public/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="/public/lib/codemirror.css">
+        <script src="/public/mode/javascript/javascript.js"></script>
+        <script src="/public/mode/xml/xml.js"></script>
+        <script src="/public/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="/public/mode/htmlembedded/htmlembedded.js"></script>
+        <script src="/public/addon/mode/multiplex.js"></script>
+        <script src="/public/base64.js"></script> 
+        <script src="/public/gzip.min.js"></script>
+        
+        <script>
+            var editor;
+            var isConfigFile = false;
+            var isViewFile = false;
+            
+            $(function() {
+                  
+                initCodeEditor();
+                 
+            });
+              
+            
+            function doAddSource() {
+                console.log('doAddSource 호출됨');
+                
+                showPage('sourcePage');
+                
+                $('#file-input').val('');
+                editor.setValue('');
+            }
+            
+            
+            function initCodeEditor() {
+                var codeTextArea = document.getElementById('CodeString');
+
+                editor = CodeMirror.fromTextArea(codeTextArea,
+                                {
+                                    mode: "javascript",
+                                    lineNumbers: true,
+                                    selectionPointer: true,
+                                    styleActiveLine: true
+                                }
+                          );
+ 
+            }
+            
+             
+            function doSaveFile() {
+                if (isConfigFile) {
+                    doSaveConfigFile();
+                } else if (isViewFile) {
+                    doSaveViewFile();
+                }
+            }
+            
+            
+            function doGetConfigFile(filename) {
+                console.log('doGetConfigFile 호출됨 : ' + filename);
+
+                var requestCode = generateRequestCode();
+
+                var params = 'requestCode=' + requestCode;
+                params += '&filename=' + filename;
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'get';
+                
+                var ajaxGetFilePath = '/manager/configfile';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('configfile에 대한 응답을 받았음.');
+                        
+                        var dataObj = JSON.parse(data);
+                        //console.log(dataObj.result);
+
+                        //var decodedResult = window.atob(dataObj.result);
+                        var decodedResult = Base64.decode(dataObj.result);
+                        
+                        showConfigFile(filename, decodedResult);
+
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            function showConfigFile(filename, result) {
+                $('#file-input').val(filename);
+                editor.setOption("mode", "javascript");
+                editor.setValue(result);
+                
+                isConfigFile = true;
+                isViewFile = false;
+            }
+            
+            function doSaveConfigFile() {
+                console.log('doSaveConfigFile 호출됨.');
+
+                var filename = $('#file-input').val();
+                var contents = editor.getValue();
+                
+                if (filename.length < 1 || contents.length < 1) {
+                    var title = '입력 확인';
+                    var contents = '파일명과 내용을 먼저 입력하세요.';
+
+                    showConfirmDialog('text', title, contents, null, null, '닫기', function() {
+                        $.closeConfirmDialog();
+
+                    });
+                    
+                    return;
+                }
+                
+                var requestCode = generateRequestCode();
+                 
+                var compressed = encodeURIComponent(contents);
+                
+                var params = 'requestCode=' + requestCode;
+                params += '&filename=' + filename;
+                params += '&contents=' + compressed;
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'post';
+                
+                var ajaxGetFilePath = '/manager/configfile';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('configfile 저장에 대한 응답을 받았음.');
+                         
+                        console.log(data);
+ 
+                        var title = '저장 확인';
+                        var contents = '설정 파일이 저장되었습니다.';
+
+                        showConfirmDialog('text', title, contents, null, null, '닫기', function() {
+                            $.closeConfirmDialog();
+                        });
+                        
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            
+            function doGetViewFileList() {
+                console.log('doGetViewFileList 호출됨.');
+
+                var requestCode = generateRequestCode();
+
+                var params = 'requestCode=' + requestCode;
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'get';
+                
+                var ajaxGetFilePath = '/manager/viewfilelist';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('viewfilelist에 대한 응답을 받았음.');
+                        
+                        var dataObj = JSON.parse(data);
+                         
+                        showViewFileList(dataObj.result);
+
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            function showViewFileList(result) {
+                var output = "";
+                for (var i = 0; i < result.length; i++) {
+                    output += "<option value=\"" + result[i] + "\">"
+                    output += result[i] + "</option>\n";
+                }
+                
+                $('#viewFileSelect').html(output);
+            }
+            
+            
+            function doGetViewFile() {
+                console.log('doGetViewFile 호출됨.');
+
+                var filename = $('#viewFileSelect').val();
+                
+                var requestCode = generateRequestCode();
+
+                var params = 'requestCode=' + requestCode;
+                params += '&filename=' + filename;
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'get';
+                
+                var ajaxGetFilePath = '/manager/viewfile';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('viewfile에 대한 응답을 받았음.');
+                        
+                        var dataObj = JSON.parse(data);
+                        var decodedResult = Base64.decode(dataObj.result);
+                        
+                        showViewFile(filename, decodedResult);
+
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            function showViewFile(filename, result) {
+                $('#file-input').val(filename);
+                //editor.setOption("mode", "xml");
+                editor.setOption("mode", "application/x-ejs");
+                editor.setValue(result);
+                
+                isConfigFile = false;
+                isViewFile = true;
+            }
+            
+            function doSaveViewFile() {
+                console.log('doSaveViewFile 호출됨.');
+
+                var filename = $('#file-input').val();
+                var contents = editor.getValue();
+                
+                if (filename.length < 1 || contents.length < 1) {
+                    var title = '입력 확인';
+                    var contents = '파일명과 내용을 먼저 입력하세요.';
+
+                    showConfirmDialog('text', title, contents, null, null, '닫기', function() {
+                        $.closeConfirmDialog();
+
+                    });
+                    
+                    return;
+                }
+                
+                var requestCode = generateRequestCode();
+                 
+                var compressed = encodeURIComponent(contents);
+                
+                var params = 'requestCode=' + requestCode;
+                params += '&filename=' + filename;
+                params += '&contents=' + compressed;
+
+                
+                var ajaxBaseUrl = 'http://localhost:3000';
+                //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+                
+                var ajaxType = 'post';
+                
+                var ajaxGetFilePath = '/manager/viewfile';
+                
+                
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxGetFilePath,
+                    type:ajaxType,
+                    data:params,
+                    //processData: true,
+                    success:function(data) {
+                        console.log('viewfile 저장에 대한 응답을 받았음.');
+                         
+                        console.log(data);
+ 
+                        var title = '저장 확인';
+                        var contents = '뷰 파일이 저장되었습니다.';
+
+                        showConfirmDialog('text', title, contents, null, null, '닫기', function() {
+                            $.closeConfirmDialog();
+                        });
+                        
+                    },
+                    error:function(err) {
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+            }
+            
+            
+            
+            
+            function println(data) {
+                $('#results').html('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+        
+    </head>
+    <body>
+    
+        <h3>설정 관리자</h3>
+        
+        <div class="container">
+            
+            <div class="btn-group">
+                <input type="button" value="설정 파일" class="btn btn-default" onclick="doGetConfigFile('config')" >
+                <input type="button" value="뷰 파일" class="btn btn-default" onclick="doGetViewFileList()" >
+            </div>
+            <br>
+            <br>
+            <div class="form-group">
+                <label for="viewFileSelect">뷰 파일 선택</label>
+                <select class="form-control" id="viewFileSelect">
+                    
+                </select>
+                <input type="button" value="선택한 뷰 파일 조회" class="btn btn-default" onclick="doGetViewFile()" >
+            </div>
+            <br>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon">file</span>
+                <input type="text" class="form-control" id="file-input">
+            </div>
+            <br>
+            <div>
+                <textarea cols="100" id="CodeString" name="CodeString" rows="5" style="width:100%" wrap="logical">
+
+                </textarea>    
+            </div>
+            <br>
+            <br>
+            <div>
+                <input type="button" value="저장" class="btn btn-primary" onclick="doSaveFile()" >
+            </div>
+            <br>
+            <br>
+        </div>
+ 
+        
+        <!-- 추가/수정 대화상자 -->
+        <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h3 class="modal-title">정보 수정</h3>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="pad" id="infopanel">
+                        </div>
+                        <div id="editDialogBody" class="form-horizontal">
+                             
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input type="button" value="저장" class="btn btn-primary" id="editDialogSaveButton" >
+                        <input type="button" value="닫기" class="btn btn-default" style="margin-left:0.5em" onclick="doModalEditClose()" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Confirm 대화상자 -->
+        <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalConfirmTitle" class="modal-title"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modalProgressView" style="height:150px">
+                            <span id="progressView" style="position:absolute; display:block; top:50%; left:50%;"></span>
+                        </div>
+                        <div id="modalTextView" style="height:50px">
+                            <span id="modalConfirmContents"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input id="modalConfirmButton1" type="button" class="btn btn-primary" >
+                        <input id="modalConfirmButton2" type="button" class="btn btn-default" style="margin-left:1em;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>

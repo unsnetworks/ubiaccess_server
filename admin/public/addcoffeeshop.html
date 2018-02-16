@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>커피숍 추가</title>
+    </head>
+    <body>
+        <h1>커피숍 추가</h1>
+        
+        <br>
+        
+        <form method="post" action="/examples/insertCoffeeshop">
+        
+            <table>
+                <tr>
+                    <td><p>이름</p></td>
+                    <td><input type="text" name="name" value="스타벅스 서울세관사거리점"></td>
+                </tr>
+                <tr>
+                    <td><p>주소</p></td>
+                    <td><input type="text" name="address" value="서울특별시 강남구 언주로 650"></td>
+                </tr>
+                <tr>
+                    <td><p>전화번호</p></td>
+                    <td><input type="text" name="tel" value="02-758-8798"></td>
+                </tr>
+                <tr>
+                    <td><p>경도</p></td>
+                    <td><input type="text" name="longitude" value="127.0357384"></td>
+                </tr>
+                <tr>
+                    <td><p>위도</p></td>
+                    <td><input type="text" name="latitude" value="37.5148330"></td>
+                </tr>
+            </table>
+            
+            <input type="submit" value="전송">
+        </form>
+        
+    </body>
+</html>

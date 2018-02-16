@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Json</title>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
+                crossorigin="anonymous">
+        </script>
+        
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js">
+        </script>
+        
+        
+        <script>
+            $(function() {
+                
+            });
+            
+            function request() {
+                var id = $('#idInput').val();
+                
+                axios({
+                    method:'post',
+                    url:'http://127.0.0.1:3000/examples/json',
+                    responseType:'json',
+                    data: {
+                        requestCode: 101,
+                        id: id
+                    }
+                }).then(function (response) {
+                    console.log('Response -> ' + JSON.stringify(response));
+                    
+                    if (response.status == 200) {
+                        println('requestCode : ' + response.data.requestCode);
+                        println('code : ' + response.data.code + ', message : ' + response.data.message);
+                        println('resultType : ' + response.data.resultType);
+                        println('result : ' + response.data.result);
+                    }
+                }).catch(function (error) {
+                    println('Error -> ' + JSON.stringify(error));
+                });
+            }
+            
+            // print input data
+            function println(data) {
+                console.log(data);
+                $('#response').append('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        <h1>Json/POST example</h1>
+        <br>
+        <div>
+            <input type="text" value="john" id="idInput" >
+            <input type="button" value="Request" onclick="request()" >
+        </div>
+        <hr>
+        <p>Response</p>
+        <div id="response"></div>
+    </body>
+</html>

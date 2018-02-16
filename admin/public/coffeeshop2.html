@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" >
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        <title>Coffeeshop Contains Search</title>
+        
+        <!-- 부트스트랩 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- 부트스트랩 테마 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- 데이터테이블 CSS -->
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+        
+        <style>
+        
+            html, body {
+	            width: 100%;
+	            height: 100%;
+	        }
+	        
+	        * {
+	            margin: 0;
+	            padding: 0;
+	        }
+	      
+            .container, .mainPage {
+	            width: 100%;
+	            height: 100%;
+	        }
+            
+	        #map {
+	            width: 80%;
+	            height: 80%;
+	        }
+            
+            table.dataTable tbody td {
+                text-align:left;
+                vertical-align:middle;
+                font-size:0.8em;
+            }
+            
+            table.dataTable thead th {
+                text-align:center;
+                font-size:0.7em;
+            }
+            
+            .pageButtons {
+                text-align:right;
+                font-size:0.6em;
+            }
+            
+            /* 대화상자의 애니메이션 없앰 */
+            .modal.fade, .modal.fade .modal-dialog {
+                -webkit-transition: none;
+                -moz-transition: none;
+                -ms-transition: none;
+                -o-transition: none;
+                transition: none;
+            }
+           
+        </style>
+        
+        
+        <!-- 제이쿼리 JS -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        
+        <!-- 부트스트랩 JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <!-- 데이터테이블 JS -->
+        <script charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+
+        <!-- 프로그레스 JS -->
+        <script src="/public/spin.min.js"></script>
+        
+        <!-- 페이지 처리 JS -->
+        <script src="/public/coffeeshop_table_pagination.js"></script>
+        
+        <!-- 코드 편집기 -->
+        <script src="/public/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="/public/lib/codemirror.css">
+        <script src="/public/mode/javascript/javascript.js"></script>
+        <script src="/public/base64.js"></script> 
+        <script src="/public/gzip.min.js"></script>
+        
+        
+        <!-- 구글맵 -->
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxgSpw5aHnyVE8_MhnxWji5qK8Cjl6zzQ"></script>
+	    
+        
+        <script>
+            var editor;
+            
+            var ajaxBaseUrl = 'http://localhost:3000';
+            //var ajaxBaseUrl = 'http://192.168.0.5:3000';
+            
+            var ajaxPath = '/spatial/coffeeshop';
+            var ajaxContainsPath = '/spatial/contains/coffeeshop';
+            
+            $(function() {
+                // initialize data table
+                 
+                var ajaxType = 'get';
+                 
+                var columnNames = ['id', 'name','address','tel', 'ST_X(location)', 'ST_Y(location)'];
+                var columnAliases = ['#', '이름', '주소', '전화', '경도', '위도'];
+                 
+                var columnDefs = [{
+                    "targets":[0,4,5],
+                    "orderable":false
+                }];
+                
+                var aoColumns = [
+                    {"sWidth":"5%" },
+                    {"sWidth":"20%" },
+                    {"sWidth":"30%" },
+                    {"sWidth":"10%" },
+                    {"sWidth":"10%" },
+                    {"sWidth":"10%" },
+                    {"sWidth":"20%" }
+                ];
+                    
+                var showModifyButton = true;
+                var showDeleteButton = true;
+                
+                var itemIcon = 'coffee.png';
+                
+                initTable('#table1', columnNames, columnAliases, columnDefs, aoColumns, showModifyButton, showDeleteButton, ajaxBaseUrl, ajaxType, ajaxPath, ajaxPath, ajaxPath, ajaxPath, itemIcon);
+                 
+                 
+                // 구글맵 초기화
+                initMap();
+                 
+            });
+            
+            
+            // 구글맵 객체
+            var map;
+            
+            // contains 검색 영역
+            var coords;
+            var rectangle;
+            
+            // coffeeshop marker array
+            var coffeeshopMarkers;
+            
+            
+            // 내 위치를 위한 좌표
+	        var centerLocation = {lat: 37.5079523, lng: 127.0632954};
+            
+	        function initMap() {
+	             
+	            map = new google.maps.Map(document.getElementById('map'), {
+	                center: centerLocation,
+	                zoom: 17
+	            });
+	            
+	            // 내 위치 표시
+	            var myMarker = new google.maps.Marker({
+	                position:centerLocation,
+	                icon:'/public/mylocation.png',
+	                animation:google.maps.Animation.BOUNCE
+	            });
+	
+	            myMarker.setMap(map);
+	            
+	        }
+	        
+            
+            
+            
+            function doSearchCoffeeshop() {
+                console.log('doSearchCoffeeshop() called.');
+                
+                var id = $('#coffeeshopIdInput').val();
+                var name = $('#nameInput').val();
+                var address = $('#addressInput').val();
+                var tel = $('#telInput').val();
+                
+                var searchParams = '';
+                if (id && id.trim().length > 0) {
+                    searchParams += '&id=' + id;
+                }
+                
+                if (name && name.trim().length > 0) {
+                    searchParams += '&name=' + name;
+                }
+                
+                if (address && address.trim().length > 0) {
+                    searchParams += '&address=' + address;
+                }
+                
+                if (tel && tel.trim().length > 0) {
+                    searchParams += '&tel=' + tel;
+                }
+                
+                var curPage = 1;
+                var curPerPage = 10;
+                
+                if (searchParams.length > 0) {
+                    requestList(curPage, curPerPage, searchParams);
+                } else {
+                    requestList(curPage, curPerPage);
+                }
+            }
+            
+            
+            function doContainsCoffeeshop() {
+                console.log('doContainsCoffeeshop() called.');
+                
+                var topleft_longitude = $('#topleft_longitude').val();
+                var topleft_latitude = $('#topleft_latitude').val();
+                var bottomright_longitude = $('#bottomright_longitude').val();
+                var bottomright_latitude = $('#bottomright_latitude').val();
+                
+                var paramPolygon = topleft_longitude + ' ' +
+                                    bottomright_latitude + ',' +
+                                    topleft_longitude + ' ' +
+                                    topleft_latitude + ',' +
+                                    bottomright_longitude + ' ' +
+                                    topleft_latitude + ',' +
+                                    bottomright_longitude + ' ' + 
+                                    bottomright_latitude + ',' +
+                                    topleft_longitude + ' ' +
+                                    bottomright_latitude;
+                        
+                // 지도에 표시할 검색 영역 설정
+                coords =new google.maps.LatLngBounds(
+                    {lat:Number(topleft_latitude), lng:Number(topleft_longitude)},
+                    {lat:Number(bottomright_latitude), lng:Number(bottomright_longitude)}
+                );
+                
+                
+                var requestCode = generateRequestCode();
+
+                var params = 'requestCode=' + requestCode;
+                params += '&polygon=' + paramPolygon;
+
+                console.log('params : ' + params);
+
+
+                $.ajax({
+                    url:ajaxBaseUrl + ajaxContainsPath,
+                    type:'get',
+                    data:params,
+                    headers: {
+                        'userid':'admin01'
+                    },
+                    success:function(data) {
+                        console.log('doContainsCoffeeshop에 대한 응답을 받았음.');
+
+                        $.closeConfirmDialog();
+
+                        console.log('requestList에 대한 응답을 받았음.');
+                        console.log(data);
+
+                        var dataObj = JSON.parse(data);
+                        if (dataObj.code == 200) {
+                            // set table data
+                            setResultToTable(dataObj.result, columnNames, '#table1', dataObj.page, dataObj.perPage, dataObj.totalRecords);
+
+                            // set page buttons using pagination.js
+                            setPagination(dataObj.page, dataObj.perPage, dataObj.totalRecords, '#pageButtons');
+                        } else {
+                            showErrorDialog(dataObj.code, dataObj.message);
+                        }
+                        
+                        
+                        // 검색하려는 영역 표시
+                        if (rectangle != undefined) {
+                            rectangle.setMap(null);
+                        }
+                        
+                        rectangle = new google.maps.Rectangle({
+                            bounds:coords,
+                            strokeColor:"#0000FF",
+                            strokeOpacity:0.8,
+                            strokeWeight:2,
+                            fillColor:"#0000FF",
+                            fillOpacity:0.4
+                        });
+
+                        rectangle.setMap(map);
+                        
+
+                        // 커피숍 위치 표시
+                        if (coffeeshopMarkers != undefined) {
+                            for (var i = 0; i < coffeeshopMarkers.length; i++) {
+                                coffeeshopMarkers[i].setMap(null);
+                            }
+                        }
+                        
+                        coffeeshopMarkers = [];
+                        console.log('count : ' + dataObj.result.length);
+                        for (var i = 0; i < dataObj.result.length; i++) {
+                            var coffeeLocation = {lat: dataObj.result[i]['ST_Y(location)'], lng: dataObj.result[i]['ST_X(location)']};
+                            
+                            var coffeeMarker = new google.maps.Marker({
+                                position:coffeeLocation,
+                                icon:'/public/coffee_red.png'
+                            });
+
+                            coffeeMarker.setMap(map);
+                            coffeeshopMarkers.push(coffeeMarker);
+                            
+                            console.log('LOC -> ' + JSON.stringify(coffeeLocation));
+                        }
+                        
+                    },
+                    error:function(err) {
+                        $.closeConfirmDialog();
+
+                        console.log('에러가 발생함.');
+                        console.dir(err);
+                        showErrorDialog(err.status, err.statusText);
+                    }
+                });
+
+                showProgressDialog();
+                
+            }
+            
+            
+            function doList() {
+                var curPage = 1;
+                var curPerPage = 10;
+                
+                requestList(curPage, curPerPage);
+            }
+             
+            function doAdd() {
+                console.log('doAdd 호출됨');
+                
+                doAddRow(1, 10);
+            }
+              
+            
+            function println(data) {
+                $('#results').html('<p>' + data + '</p>');
+            }
+            
+        </script>
+        
+        
+    </head>
+    <body>
+    
+        <h3>Coffeeshop contains example</h3>
+        
+        <div class="container">
+            
+            <!-- Page for main contents -->
+            <div class="mainPage">
+                <!-- 검색 -->
+                <form role="form" class="form-horizontal">
+                    <div class="form-group form-inline">
+                        <label for="coffeeshopIdInput" class="control-label">id</label>
+                        <input class="form-control input-sm" id="coffeeshopIdInput" type="text" style="width:10em;">
+                        
+                        <label for="nameInput" class="control-label" style="margin-left:1em;">name</label>
+                        <input class="form-control input-sm" id="nameInput" type="text" style="width:10em;">
+
+                        <label for="addressInput" class="control-label" style="margin-left:1em;">address</label>
+                        <input class="form-control input-sm" id="addressInput" type="text" style="width:10em;">
+                        
+                        <label for="telInput" class="control-label" style="margin-left:1em;">tel</label>
+                        <input class="form-control input-sm" id="telInput" type="text" style="width:10em;">
+
+                        <button type="button" class="btn btn-info btn-sm" style="margin-left:1em;" onclick="doSearchCoffeeshop()">커피숍 검색</button>
+                        <button type="button" class="btn btn-info btn-sm" style="margin-left:1em;" onclick="doAdd()">커피숍 추가</button>
+                    </div>
+                </form>    
+                
+                <!-- 단말 리스트 -->
+                <table class="table table-striped table-hover" id="table1">
+                    <thead>
+
+                    </thead>
+                    <tbody id="tbody1">
+
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation" id="pageButtons" class="pageButtons">
+                </nav>
+                <br>
+                <br>
+                <table>
+                    <tr>
+                        <td><label style="margin-right:1em;">좌상단 경도</label></td>
+                        <td><input type="text" id="topleft_longitude" value="127.0617076" ></td>
+                        <td><span style="margin-left:2em;"></span></td>
+                        <td><label style="margin-right:1em;">좌상단 위도</label></td>
+                        <td><input type="text" id="topleft_latitude" value="37.5082076" ></td>
+                        <td rowspan="2"><button type="button" class="btn btn-info btn-sm" style="margin-left:2em;" onclick="doContainsCoffeeshop()">커피숍 contains 검색</button></td>
+                    </tr>
+                    <tr>
+                        <td><label style="margin-right:1em; margin-top:1em;">우하단 경도</label></td>
+                        <td><input type="text" id="bottomright_longitude" value="127.0637568" ></td>
+                        <td><span style="margin-left:2em;"></span></td>
+                        <td><label style="margin-right:1em;">우하단 위도</label></td>
+                        <td><input type="text" id="bottomright_latitude" value="37.5073906" ></td>
+                        <td></td>
+                    </tr>
+                </table>
+                
+                <br>
+                <br>
+                <div id="results">
+                </div>
+                <br>
+                <br>
+                <div id="map"></div>
+            </div>
+             
+        </div>
+        
+        
+        <!-- 추가/수정 대화상자 -->
+        <div id="modalEdit" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h3 class="modal-title">정보 수정</h3>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="pad" id="infopanel">
+                        </div>
+                        <div id="editDialogBody" class="form-horizontal">
+                             
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input type="button" value="저장" class="btn btn-primary" id="editDialogSaveButton" >
+                        <input type="button" value="닫기" class="btn btn-default" style="margin-left:0.5em" onclick="doModalEditClose()" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Confirm 대화상자 -->
+        <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalConfirmTitle" class="modal-title"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modalProgressView" style="height:150px">
+                            <span id="progressView" style="position:absolute; display:block; top:50%; left:50%;"></span>
+                        </div>
+                        <div id="modalTextView" style="height:50px">
+                            <span id="modalConfirmContents"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <input id="modalConfirmButton1" type="button" class="btn btn-primary" >
+                        <input id="modalConfirmButton2" type="button" class="btn btn-default" style="margin-left:1em;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>커피숍 검색</title>
+    </head>
+    <body>
+        <h1>커피숍 검색</h1>
+        
+        <br>
+        
+        <form method="post" action="/process/nearcoffeeshop">
+        
+            <table>
+                <tr>
+                    <td><p>중심 경도</p></td>
+                    <td><input type="text" name="longitude" value="127.0334156"></td>
+                </tr>
+                <tr>
+                    <td><p>중심 위도</p></td>
+                    <td><input type="text" name="latitude" value="37.5149564"></td>
+                </tr>
+            </table>
+            
+            <input type="submit" value="전송">
+        </form>
+        
+    </body>
+</html>

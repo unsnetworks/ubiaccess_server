@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>영역 안 커피숍 검색</title>
+    </head>
+    <body>
+        <h1>영역 안 커피숍 검색</h1>
+        
+        <br>
+        
+        <form method="post" action="/examples/findContains">
+            <table>
+                <tr>
+                    <td><p>왼쪽상단 위도</p></td>
+                    <td><input type="text" name="topleft_latitude" value="37.5077101"></td>
+                </tr>
+                <tr>
+                    <td><p>왼쪽상단 경도</p></td>
+                    <td><input type="text" name="topleft_longitude" value="127.0611010"></td>
+                </tr>
+                <tr>
+                    <td><p>오른쪽하단 위도</p></td>
+                    <td><input type="text" name="bottomright_latitude" value="37.5069101"></td>
+                </tr>
+                <tr>
+                    <td><p>오른쪽하단 경도</p></td>
+                    <td><input type="text" name="bottomright_longitude" value="127.0631010"></td>
+                </tr>
+            </table>
+            <input type="submit" value="전송">
+            
+        </form>
+        
+    </body>
+</html>
