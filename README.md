@@ -655,7 +655,7 @@ let values = {
 
 
 
-- Register readCountry2 controller function inconfig/controller_config.js
+- Register readCountry2 controller function in config/controller_config.js
 
 ```javascript
 {id:'5', file:'world', path:'/examples/readCountry2', method:'readCountry2',  type:'post', upload:''},
@@ -719,7 +719,7 @@ util.query(values, (output) => {
 
 
 
-- Register readCountry3 controller function inconfig/controller_config.js
+- Register readCountry3 controller function in config/controller_config.js
 
 ```javascript
 {id:'6', file:'world', path:'/examples/readCountry3', method:'readCountry3',    type:'post', upload:''},
@@ -747,7 +747,7 @@ util.query(values, (output) => {
 - Add updateCountry controller function in controller/world.js file.
 
 
-- Register updateCountry controller function inconfig/controller_config.js
+- Register updateCountry controller function in config/controller_config.js
 
 
 - Open world.html file and click updateCountry button.
