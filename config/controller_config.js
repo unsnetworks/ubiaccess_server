@@ -17,7 +17,8 @@ var thisModule = [
     {id:'9', file:'employee', path:'/examples/getEmployee', method:'getEmployee', type:'post', upload:''},
     {id:'10', file:'employee', path:'/examples/updateEmployee', method:'updateEmployee', type:'post', upload:''},
     {id:'11', file:'memo', path:'/examples/insertMemo', method:'insertMemo', type:'post', upload:'photo'},
-    {id:'12', file:'file', path:'/examples/uploadFile', method:'uploadFile', type:'post', upload:'photo'}
+    {id:'12', file:'file', path:'/examples/uploadFile', method:'uploadFile', type:'post', upload:'photo'},
+    {id:'13', file:'mci_test', path:'/mci/data', method:'getData', type:'post', upload:''}
 ];
  
 thisModule.baseDir = 'controller';
