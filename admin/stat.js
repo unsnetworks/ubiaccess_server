@@ -17,6 +17,7 @@ var stat_database = {};
 // SQL to be used for Statistics
 var sql = {
     stat_route_insert:'insert into stat_route set ?',
+    stat_route_update:'update stat_route set params = ? where direction = ? and path = ? and method = ?',
     stat_socketio_insert:'insert into stat_socketio set ?',
     stat_rpc_insert:'insert into stat_rpc set ?'
 }
@@ -28,6 +29,14 @@ stat_database.stat_route_insert = function(data, callback) {
     //console.dir(data);
 	
 	stat_database.execute(stat_database.pool, sql.stat_route_insert, data, callback);
+};
+
+// stat_route_update
+stat_database.stat_route_update = function(data, callback) {
+	logger.debug('stat_route_update called.');
+    console.dir(data);
+	
+	stat_database.execute(stat_database.pool, sql.stat_route_update, data, callback);
 };
 
 
@@ -80,6 +89,7 @@ function initHandlers(server) {
         //logger.debug('method : ' + req.method);
         //logger.debug('query : ' + req._parsedUrl.query);
 
+        
         var pathname = '';
         var query = '';
         if (req._parsedUrl) {
@@ -114,6 +124,37 @@ function initHandlers(server) {
             }
         });
   
+        let body = [];
+        if (req.method == 'POST') {
+            let body = [];
+            req.on('data', (chunk) => {
+                body.push(chunk);
+            }).on('end', () => {
+                body = Buffer.concat(body).toString();
+                let inParams = JSON.stringify(body);
+                logger.debug('POST body -> ' + inParams);
+                
+                let data2 = [inParams, 'request', pathname, req.method];
+                
+                stat_database.stat_route_update(data2, function(err2, result2) {
+                    if (err2) {
+                        logger.debug('error in calling stat_route_update.');
+                        logger.debug(JSON.stringify(err2));
+
+                        return;
+                    }
+
+                    if (result2 && result2.affectedRows > 0) {
+                        logger.debug('stat_route_update success.');
+                    } else {
+                        logger.debug('stat_route_update failed -> ' + JSON.stringify(result2));
+                    }
+                });
+                
+            });
+        }
+        
+        
     });
 
 }
