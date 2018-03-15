@@ -103,7 +103,9 @@ function readFile(filebase, callback) {
 
 function createLengthPrefix(contents) {
     // 길이 확인
-    var dataLen = contents.length;
+    //var dataLen = contents.length;
+    var body_buffer = new Buffer(contents, 'utf8');
+	var dataLen = body_buffer.length;
     var dataLenStr = dataLen.toString();
     for (var i = 0; i < 10; i++) {
         if (dataLenStr.length < 10) {
