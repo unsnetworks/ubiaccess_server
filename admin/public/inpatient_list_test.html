@@ -122,21 +122,19 @@
                 var param1 = $('#paramInput1').val();
                 var param2 = $('#paramInput2').val();
                 var param3 = $('#paramInput3').val();
-                
-                var data = {};
-                data.names = ['careWardCd','cdVl1','cdVl2'];
-                data.values = [param1, param2, param3];
-                
+                 
                 params += '&interfaceId=' + interfaceId;
                 params += '&requestId=' + requestId;
-                params += '&data=' + JSON.stringify(data);
+                params += '&wardId=' + param1;
+                params += '&deptId=' + param2;
+                params += '&userId=' + param3;
                 
                 console.log('PARAMS -> ' + params);
 
                 
                 var ajaxBaseUrl = 'http://localhost:3000';
                 var ajaxType = 'post';
-                var ajaxPath = '/mci/data';
+                var ajaxPath = '/memphis/inpatient_list';
                 
                 
                 $.ajax({
@@ -144,68 +142,69 @@
                     type:ajaxType,
                     data:params,
                     success:function(data) {
-                        console.log('doGetData에 대한 응답을 받았음.');
+                        console.log('inpatient_list에 대한 응답을 받았음.');
                          
                         console.log('RESPONSE -> ' + data);
                         
-                        var dataObj = JSON.parse(data);
-                        var mciObj = JSON.parse(dataObj.result);
+                        var responseObj = JSON.parse(data);
                         
-                        // show in the editor
-                        var jsonOutput = JSON.stringify(mciObj, null, 4);
-                        editor.setValue(jsonOutput);
-                         
-                        
-                        var keys = Object.keys(mciObj);
-                        console.log('KEYS -> ' + JSON.stringify(keys));
-                        
-                        var table = {};
-                        table.header = parseHeader(mciObj);
-                        table.header.inname = keys[2];
-                        console.log('HEADER -> ' + JSON.stringify(table.header));
-                
-                        table.body = parseBody(mciObj, table.header);
-                        console.log('BODY -> ' + JSON.stringify(table.body));
-                        
+                        console.log('record count : ' + responseObj.result.length);
+                        if (responseObj.result.length > 0) {
+                            var columns = Object.keys(responseObj.result[0]);
+                            console.log('columns -> ' + JSON.stringify(columns));
 
-                        // table 태그의 header 설정
-                        var aoColumns = [];
-                        var threadHtml = "";
-                        threadHtml += "<tr>";
-                        for (var i = 0; i < table.body.columns.length; i++) {
-                            aoColumns.push({"sWidth":"5%" });
-                            threadHtml += "  <th>" + table.body.columns[i] + "</th>";
+                            var rows = [];
+                            for (var i = 0; i < responseObj.result.length; i++) {
+                                var row = [];
+                                for (var j = 0; j < columns.length; j++) {
+                                    if (responseObj.result[i][columns[j]]) {
+                                        row.push(responseObj.result[i][columns[j]]);
+                                    } else {
+                                        row.push('');
+                                    }
+                                }
+                                rows.push(row);
+                            }
+                             
+                            // table 태그의 header 설정
+                            var aoColumns = [];
+                            var threadHtml = "";
+                            threadHtml += "<tr>";
+                            for (var i = 0; i < columns.length; i++) {
+                                aoColumns.push({"sWidth":"5%" });
+                                threadHtml += "  <th>" + columns[i] + "</th>";
+                            }
+
+                            $('#table1>thead').html(threadHtml);
+
+
+                            // table 초기화
+                            var columnDefs = [{
+                                "targets":[2,3],
+                                "orderable":false
+                            }];
+
+                            if (!table1) {
+                                table1 = $('#table1').dataTable({
+                                    "bInfo":false,
+                                    "bLengthChange":false,
+                                    "searching":false,
+                                    "bPaginate":false,
+                                    "oLanguage":{
+                                        "sEmptyTable":"조회된 데이터가 없습니다."
+                                    },
+                                    order: [],
+                                    "columnDefs":columnDefs,
+                                    "aoColumns" :aoColumns
+                                });
+                            }
+
+                            table1.fnClearTable();
+                            table1.fnAddData(rows);
+                            table1.fnDraw();
+
+                            println('Response success at ' + moment().format('YYYY-MM-DD HH:mm:ss'));
                         }
-
-                        $('#table1>thead').html(threadHtml);
-
-                        
-                        // table 초기화
-                        var columnDefs = [{
-                            "targets":[4,6],
-                            "orderable":false
-                        }];
- 
-                        if (!table1) {
-                            table1 = $('#table1').dataTable({
-                                "bInfo":false,
-                                "bLengthChange":false,
-                                "searching":false,
-                                "bPaginate":false,
-                                "oLanguage":{
-                                    "sEmptyTable":"조회된 데이터가 없습니다."
-                                },
-                                order: [],
-                                "columnDefs":columnDefs,
-                                "aoColumns" :aoColumns
-                            });
-                        }
-                        
-                        table1.fnClearTable();
-                        table1.fnAddData(table.body.rows);
-                        table1.fnDraw();
-                        
-                        println('Response success at ' + moment().format('YYYY-MM-DD HH:mm:ss'));
                         
                     },
                     error:function(err) {
@@ -218,68 +217,7 @@
                     }
                 });
             }
-            
-            function parseHeader(mciObj) {
-                var header = {};
-                
-                // system header
-                // service id -> tlgrRecvSrvcId
-                header.serviceId = mciObj.cfs_sheader_001.tlgrRecvSrvcId;
-                
-                // user id -> tlgrRecvUserId
-                header.userId = mciObj.cfs_sheader_001.tlgrRecvUserId;
-                
-                // business header
-                // code -> mesgCd
-                // message -> mesgCtn
-                header.code = mciObj.cfs_bheader_s00.mesgCd;
-                header.message = mciObj.cfs_bheader_s00.mesgCtn;
-                
-                return header;
-            }
-            
-            function parseBody(mciObj, header) {
-                var body;
-                
-                header.repeat = mciObj[header.inname].afiReptNtm;
-                console.log('repeat count : ' + header.repeat);
-                
-                if (header.inname == 'mnc_ifsmttg_082') {
-                    header.outname = 'mns_ifsmttg_082';
-                    body = parsePatientList(mciObj[header.inname][header.outname]);
-                } else {
-                    console.log('unknown header name : ' + header.name);
-                }
-                
-                return body;
-            }
-            
-            function parsePatientList(inputArray) {
-                var body = {};
-                var columns = [
-                    'ptntNm','ptno','gendCd','cdVl1','careWardCd',
-                    'carePtrmNo','careSckbNo','userNm1','userNm2','mdcrDt',
-                    'dschPrrnDt','ltstOprtYmd','cdVl2','gndrId','mdrpNo',
-                    'cnosRcrdNo'
-                ];
-                
-                var rows = [];
-                console.log('input count : ' + inputArray.length);
-                
-                for (var i = 0; i < inputArray.length; i++) {
-                    var row = [];
-                    for (var j = 0; j < columns.length; j++) {
-                        row.push(inputArray[i][columns[j]]);
-                    }
-                    rows.push(row);
-                }
-                body.columns = columns;
-                body.rows = rows;
-                
-                return body;
-            }
-            
-            
+             
             function println(data) {
                 $('#results').html('<p>' + data + '</p>');
             }
