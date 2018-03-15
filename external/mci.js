@@ -30,14 +30,14 @@ mci.init = function(inApp, inConfig, externalConfig, external) {
  
 
 // Request send
-mci.send = function(params, callback, receiver) {
+mci.send = function(values, callback, receiver) {
 	logger.debug('mci.send called.');
 	
     // create request body
     var request = {};
-    request['cfs_sheader_001'] = createSystemHeader(params[0]);
+    request['cfs_sheader_001'] = createSystemHeader(values.interfaceId);
     request['cfs_bheader_s00'] = createBusinessHeader();
-    request[params[1]] = createValues(params);    
+    request[values.requestId] = values.input;    
     
     var requestStr = JSON.stringify(request);
     console.dir(requestStr);
@@ -127,29 +127,12 @@ function createBusinessHeader() {
     return businessHeader;
 }
 
-function createValues(params) {
-    var values = {};
-    
-    var paramData = params[2];
-     
-    console.log('paramData -> ' + paramData);
-    
-    var data = JSON.parse(paramData);
-    console.log('DEBUG 2');
-
-    for (var i = 0; i < data.names.length; i++) {
-        values[data.names[i]] = data.values[i];
-    }
-    
-    return values;
-}
-
 
 function sendData(output, callback, receiver) {
     // get connection from connection pool
 	pool.getConnection(function(err, conn) {
         if (err) {
-            callback(err, null);
+            callback(conn, err, null);
             
             return;
         } 
@@ -161,7 +144,7 @@ function sendData(output, callback, receiver) {
         // data transfer
         console.log('about to send output.');
         conn._socket.write(output);
-        callback(null, 'output sent.');
+        callback(conn, null, 'output sent.');
          
         // check connection in Pool
         console.log('all before release : ' + pool._allConnections.length);
