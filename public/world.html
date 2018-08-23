@@ -42,7 +42,7 @@
                         if (response.data.resultType == 'list') {
                             println('result length : ' + response.data.result.length);
                             
-                            response.data.result.forEach(function(item, index) {
+                            response.data.result.results.forEach(function(item, index) {
                                 println('    #' + index + ' -> ' + JSON.stringify(item));
                             });
                         } else {
@@ -76,7 +76,7 @@
                         if (response.data.resultType == 'list') {
                             println('result length : ' + response.data.result.length);
                             
-                            response.data.result.forEach(function(item, index) {
+                            response.data.result.results.forEach(function(item, index) {
                                 println('    #' + index + ' -> ' + JSON.stringify(item));
                             });
                         } else {
@@ -111,7 +111,7 @@
                         if (response.data.resultType == 'list') {
                             println('result length : ' + response.data.result.length);
                             
-                            response.data.result.forEach(function(item, index) {
+                            response.data.result.results.forEach(function(item, index) {
                                 println('    #' + index + ' -> ' + JSON.stringify(item));
                             });
                         } else {
@@ -148,7 +148,7 @@
                         if (response.data.resultType == 'list') {
                             println('result length : ' + response.data.result.length);
                             
-                            response.data.result.forEach(function(item, index) {
+                            response.data.result.results.forEach(function(item, index) {
                                 println('    #' + index + ' -> ' + JSON.stringify(item));
                             });
                         } else {
@@ -184,7 +184,7 @@
                         if (response.data.resultType == 'list') {
                             println('result length : ' + response.data.result.length);
                             
-                            response.data.result.forEach(function(item, index) {
+                            response.data.result.results.forEach(function(item, index) {
                                 println('    #' + index + ' -> ' + JSON.stringify(item));
                             });
                         } else {
