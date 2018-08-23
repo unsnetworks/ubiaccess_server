@@ -111,8 +111,8 @@ logger.debug('config.server_ssl_port : %d', config.server_ssl_port);
 app.set('ssl_port', config.server_ssl_port || process.env.SSL_PORT);
 
 // body-parser
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+app.use(bodyParser.json({ limit: '50mb' }));
  
 // public folder is open using static
 app.use('/', static(path.join(__dirname, 'root')));

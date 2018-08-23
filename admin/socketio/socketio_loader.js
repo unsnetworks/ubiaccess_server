@@ -24,6 +24,8 @@ socketio_loader.init = function(server, app, sessionMiddleware, socketio) {
     
     // socket.io service started
     var io = socketio.listen(server);
+    app.io = io;
+    io.app = app;
     logger.info('socket.io service started.');
 
 
@@ -87,7 +89,7 @@ function loadModule(io, socket, filename, curItem) {
 }
 
 function registerHandler(io, socket, curHandler, curItem) {
-    curHandler.init(io, socket);
+    //curHandler.init(io, socket);
     //socket.on(curItem.event, curHandler[curItem.method]);
     
     socket.on(curItem.event, function(data) {
@@ -120,7 +122,7 @@ function registerHandler(io, socket, curHandler, curItem) {
             }
         })
         
-        curHandler[curItem.method](data);
+        curHandler[curItem.method](io, socket, data);
     });
     
     logger.debug('Event handler registered [%s] -> [%s]', curItem.event, curItem.method);

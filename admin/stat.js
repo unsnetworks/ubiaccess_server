@@ -34,7 +34,15 @@ stat_database.stat_route_insert = function(data, callback) {
 // stat_route_update
 stat_database.stat_route_update = function(data, callback) {
 	logger.debug('stat_route_update called.');
-    console.dir(data);
+    //console.dir(data);
+    if (data && data.length > 0) {
+        if (data[0] && data[0].length > 500) {
+            logger.debug('REQUEST -> ' + 'request parameter is too big to print log.');
+        } else {
+            //console.dir(data);
+            logger.debug('REQUEST -> ' + JSON.stringify(data));
+        }
+    }
 	
 	stat_database.execute(stat_database.pool, sql.stat_route_update, data, callback);
 };
@@ -132,7 +140,7 @@ function initHandlers(server) {
             }).on('end', () => {
                 body = Buffer.concat(body).toString();
                 let inParams = JSON.stringify(body);
-                logger.debug('POST body -> ' + inParams);
+                //logger.debug('POST body -> ' + inParams);
                 
                 let data2 = [inParams, 'request', pathname, req.method];
                 
@@ -216,6 +224,12 @@ function createPool(config) {
 
 
 function execute(pool, sql, data, callback) {
+    // big size check
+    if (data && JSON.stringify(data).length > 512) {
+        logger.debug('parameter is too big for log save.');
+        return;
+    }
+    
     // get connection from Pool object
 	pool.getConnection(function(err, conn) {
         if (!checkGetConnectionError(err, conn, callback)) {

@@ -12,22 +12,22 @@ var thisModule = {};
 
 
 // ALL에게 응답 메시지 전송 메소드
-thisModule.sendAll = (io, socket, data) => {
-	io.sockets.emit('message', data);
+thisModule.sendAll = (io, socket, event_name, data) => {
+	io.sockets.emit(event_name, data);
     
     thisModule.storeResponse(socket, 'all', data);
 }
  
 // Broadcast로 응답 메시지 전송 메소드
-thisModule.sendData = (io, socket, receiver, data) => {
-	io.sockets.connected[receiver].emit('message', data);
+thisModule.sendData = (io, socket, receiver_socket_id, event_name, data) => {
+	io.sockets.connected[receiver_socket_id].emit(event_name, data);
 
     thisModule.storeResponse(socket, 'response', data);
 }
  
 // Broadcast로 응답 메시지 전송 메소드
-thisModule.sendBroadcast = (io, socket, receiver, data) => {
-	socket.broadcast.emit('message', data);
+thisModule.sendBroadcast = (io, socket, event_name, data) => {
+	socket.broadcast.emit(event_name, data);
 
     thisModule.storeResponse(socket, 'broadcast', data);
 }
