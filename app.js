@@ -1,9 +1,9 @@
 /**
  * UbiAccess
- * 
+ *
  * Starting server
  * node app.js
- * 
+ *
  * @author Mike
  */
 
@@ -37,6 +37,7 @@ var mime = require('mime');
 
 // load config
 var config = require('./config/config');
+const ConfigLoader = require("./config/ConfigLoader");
 
 
 // load database_loader
@@ -102,6 +103,13 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 logger.info('ejs is set to view engine.');
 
+// cookie-parser
+app.use(cookieParser());
+
+const configLoader = new ConfigLoader();
+
+configLoader.loadConfig(app);
+
 
 // Port
 logger.debug('config.server_port : %d', config.server_port);
@@ -119,10 +127,6 @@ app.use('/', static(path.join(__dirname, 'root')));
 app.use('/public', static(path.join(__dirname, 'public')));
 app.use('/uploads', static(path.join(__dirname, 'uploads')));
 app.use('/admin', static(path.join(__dirname, 'admin', 'public')));
-
-
-// cookie-parser 
-app.use(cookieParser());
 
 // Session
 var sessionMiddleware = expressSession({
@@ -308,6 +312,10 @@ app.on('close', function () {
 		database.db.close();
 	}
 });
+
+app.get("/test", (req, res) => {
+    res.send("ok");
+})
 
 
 // Starting server
