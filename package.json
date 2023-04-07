@@ -9,8 +9,8 @@
   "author": "U&S Networks Inc.",
   "license": "MIT",
   "repository": {
-     "type": "git",
-     "url": "https://github.com/unsnetworks/ubiaccess_server.git"
+    "type": "git",
+    "url": "https://github.com/unsnetworks/ubiaccess_server.git"
   },
   "dependencies": {
     "atob": "^2.0.3",
@@ -40,6 +40,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "redis": "^4.6.5",
     "socket.io": "^1.7.3",
     "sqlite3": "3.1.13",
     "stack-trace": "0.0.10",
